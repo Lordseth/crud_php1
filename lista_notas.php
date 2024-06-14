@@ -16,6 +16,7 @@
                 <div class="row">
                   <div class="col-md-9">
                     <h3 class="card-title">Lista de notas</h3>
+                    
                   </div>
                   <div class="col-md-3">
                     <a href="crear_nota.php" type="button" class="btn btn-primary btn-xl pull-right w-100">

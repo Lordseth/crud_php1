@@ -1,39 +1,54 @@
 <?php include "includes/header.php" ?>
 
-              <div class="card-header">               
-                <div class="row">
-                  <div class="col-md-9">
-                    <h3 class="card-title">Lista de todos los registros usuarios</h3>
-                  </div>
-                  <div class="col-md-3">
-                      <a href="crear_usuario.php" class="btn btn-primary btn-xl pull-right w-100"><i class="fa fa-plus"></i>  Ingresar nuevo usuario</a>                  
-                 </div>
-              </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="tblUsuarios" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>Id</th>                  
-                    <th>Email</th>
-                    <th>Nombre</th>
-                    <th>Teléfono</th>                   
-                  </tr>
-                  </thead>
-                  <tbody>
-                
-                   <tr>
-                          <td>1</td>
-                          <td>admin@render2web.com</td>
-                          <td>jose montoya</td>
-                          <td>3333333</td>
-                    </tr> 
-                 
-                  </tbody>                  
-                </table>
-              </div>
-              <!-- /.card-body -->
+<?php
+
+  // Mostrar Registros
+  $query =  "SELECT FROM usuario";
+  $stmt = $conexion->query($query);
+  $usuarios = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+  //var_dump($registros);
+
+?>
+
+        <div class="card-header">               
+          <div class="row">
+            <div class="col-md-9">
+              <h3 class="card-title">Lista de todos los registros usuarios</h3>
+            </div>
+            <div class="col-md-3">
+                <a href="crear_usuario.php" class="btn btn-primary btn-xl pull-right w-100"><i class="fa fa-plus"></i>  Ingresar nuevo usuario</a>                  
+            </div>
+        </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table id="tblUsuarios" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>Id</th>                  
+              <th>Email</th>
+              <th>Nombre</th>
+              <th>Teléfono</th>                   
+            </tr>
+            </thead>
+            <tbody>
+
+            <?php foreach($registros as $fila) : ?>
+          
+              <tr>
+                    <td><?php echo $fila->id_Usuario; ?></td>
+                    <td>admin@render2web.com</td>
+                    <td>jose montoya</td>
+                    <td>3333333</td>
+              </tr> 
+
+              <?php endforeach; ?>
+            
+            </tbody>                  
+          </table>
+        </div>
+        <!-- /.card-body -->
 
 <?php include "includes/footer.php" ?>
 
