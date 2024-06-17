@@ -1,5 +1,43 @@
 <?php include "includes/header.php" ?>
 
+<?php
+
+if (isset($_POST["crearUsuario"])) {
+    
+  // Obtener valores
+  $titulo = $_POST["titulo"];
+  $descripcion = $_POST["descripcion"];
+
+  // Validar si esta vacio
+  if (empty($titulo) || empty($descripcion)) {
+    $error = "Error, algunos campos obligatorios están vacios";
+  }else {
+    // Si entra aqui es porque se puede ingresar el nuevo registro
+    $query = "INSERT INTO notas(titulo, descripcion, fecha, usuario_id)VALUES(:titulo, :descripcion, :fecha, :usuario_id)";
+
+    $fechaActual = date('Y-m-d');
+
+    $stmt = $conexion->prepare($query);
+
+    $stmt->bindParam(":titulo", $titulo, PDO::PARAM_STR);
+    $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
+    $stmt->bindParam(":fecha", $fechaActual, PDO::PARAM_STR);
+    $stmt->bindParam(":usuario_id", $idUsuario, PDO::PARAM_INT);
+
+    $resultado = $stmt->execute;
+
+    if ($resultado) {
+      $mensaje = "Registro de nota creado correctamente"; 
+    }else {
+      $error = "Error, no se pudo crear la nota";
+    }
+
+  }
+}
+
+
+?>
+
 
 <div class="row">
     <div class="col-sm-12">

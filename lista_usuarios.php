@@ -34,13 +34,13 @@
             </thead>
             <tbody>
 
-            <?php foreach($registros as $fila) : ?>
+            <?php foreach($usuarios as $fila) : ?>
           
               <tr>
                     <td><?php echo $fila->id_Usuario; ?></td>
-                    <td>admin@render2web.com</td>
-                    <td>jose montoya</td>
-                    <td>3333333</td>
+                    <td><?php echo $fila->email; ?></td>
+                    <td><?php echo $fila->nombre; ?></td>
+                    <td><?php echo $fila->telefono; ?></td>
               </tr> 
 
               <?php endforeach; ?>
