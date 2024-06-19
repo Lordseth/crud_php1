@@ -7,7 +7,7 @@
 
   //Obtener los datos de la nota por su id
   $query = "SELECT * FROM notas WHERE idnota=:id";
-  $stmt = $conexion->prepare($query);
+  $stmt = $conn->prepare($query);
 
   //Debemos pasar a bindParam las variables, no podemos pasar el dato directamente
   //Llamado por referencia

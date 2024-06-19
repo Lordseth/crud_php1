@@ -9,11 +9,7 @@
     $dsn = "mysql:dbname=$db;host=$servidor";
     
     try {
-       $conexion = new PDO($dsn, $usuario, $password);
-
-       if ($conexion) {
-        echo "Conectado a la base de datos correctamente";
-       }
+       $conn = new PDO($dsn, $usuario, $password);
        
     } catch (PDOException $e) {
         echo "La conexion ha fallado: " . $e->getMessage();

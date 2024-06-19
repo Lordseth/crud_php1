@@ -1,27 +1,23 @@
 <?php
+  session_start();
 
-session_start();
+  //Validamos si la sesión está activa
+  if (!$_SESSION['activo']) {
+    header("Location:panel.php");
+  }
 
-// Validamos si la sesión esta activada
-if (!$_SESSION['activo']) {
-  header("Location:panel.php");
-}
+  //Configurar zona horaria
+  date_default_timezone_set('America/Monterrey');
 
- // Configurar zona horaria
- date_default_timezone_set('America/Monterrey');
+  //Obtener demás variables de sesión
+  $id_usuario = $_SESSION['id_usuario'];
+  $nombre = $_SESSION['nombre'];
+  $email = $_SESSION['email'];
 
-// Obtener las demás variables de sesión
-
-$idUsuario = $_SESSION['idUsuario'];
-$nombre = $_SESSION['nombre'];
-$email = $_SESSION['email'];
-
-// Conexion a base de datos y queda de manera global para todos los archivos
-include_once("conexion.php");
+  //Incluir la conexión y queda de manera global para todos los archivos
+  include_once("conexion_sqlserver.php");
 
 ?>
-
-
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -88,8 +84,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="dist/img/images.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">         
-          <p class="text-white"><?php  echo $nombre;  ?></p>
-          <p class="text-white"><?php  echo $email;  ?></p>
+          <p class="text-white"><?php echo $nombre; ?></p>
+          <p class="text-white"><?php echo $email; ?></p>
         </div>
       </div>
 
@@ -115,7 +111,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
-          
+          <?php if(isset($_SESSION['activo']) && $_SESSION['es_admin'] == 1) : ?>
             <li class="nav-item">
               <a href="lista_usuarios.php" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
@@ -124,6 +120,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </p>
               </a>
             </li>
+            <?php endif; ?>
             
           <li class="nav-item">
             <a href="salir.php" class="nav-link">

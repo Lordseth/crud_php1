@@ -1,50 +1,48 @@
 <?php
-session_start();
+  session_start();
 
-// Validamos si la sesión esta activada
-if (!empty($_SESSION['activo'])) {
-  header("Location:panel.php");
-}
-
-  // Conexion a base de datos
-  include_once("conexion.php");
+  //Validamos si la sesión está activa
+  if (!empty($_SESSION['activo'])) {
+    header("Location:panel.php");
+  }
+  //Incluir la conexión
+  include_once("conexion_sqlserver.php");
 
   if (isset($_POST["ingresar"])) {
+    
     $email = $_POST["email"];
-    $pass = md5($_POST["password"]);
+    $pass = ($_POST["password"]);
 
     if (!empty($email) && $email != "" && !empty($pass) && $pass != "") {
-      $query = "SELECT id, email, nombre, telefono, password, es_admin FROM usuario WHERE email=:email AND password=:password";
+      $query = "SELECT id_usuario, email, nombre, telefono, password, es_admin FROM usuario WHERE email=:email AND password=:password";
 
-      $stmt = $conexion->prepare($query);
+      $stmt = $conn->prepare($query);
       $stmt->bindParam(":email", $email, PDO::PARAM_STR);
       $stmt->bindParam(":password", $pass, PDO::PARAM_STR);
+
 
       $resultado = $stmt->execute();
       $registro = $stmt->fetch(PDO::FETCH_ASSOC);
 
       if (!$registro) {
-        $error = "Error acceso invalido";
-      }else {
-        // Aqui se inicia la sesion
+        $error = "Error, acceso inválido";
+      }else{
+        //Aquí creamos sesiones
         $_SESSION['activo'] = true;
-        $_SESSION['idUsuario'] = $registro['id'];
+        $_SESSION['id_usuario'] = $registro['id_usuario'];
         $_SESSION['nombre'] = $registro['nombre'];
         $_SESSION['email'] = $registro['email'];
-        $_SESSION['esAdmin'] = $registro['es_admin'];
+        $_SESSION['es_admin'] = $registro['es_admin'];
 
-        // Despues de crear la sesion, se redirige a panel.php
+        //Después de crear las sesiones, redirigimos al panel.php
         header("Location:panel.php");
-      }
-
+      }      
     }else{
-      $error = "Error, algunos campos estan vacios";
+      $error = "Error, algunos campos están vacíos";
     }
-
   }
 
 ?>
-
 
 <!doctype html>
 <html lang="es">
@@ -77,21 +75,16 @@ if (!empty($_SESSION['activo'])) {
   </head>
   <body class="hold-transition login-page">
 
-
   <div class="row">
     <div class="col-sm-12">
-
-            <?php  if(isset($error)) : ?>
-      
+            <?php if(isset($error)) : ?>
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
                   <strong><?php echo $error; ?></strong> 
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
-
-            <?php endif; ?>
-      
+          <?php endif; ?>      
     </div>
 </div>
 

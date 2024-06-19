@@ -2,36 +2,35 @@
 
 <?php
 
-  if (isset($_POST["registrarNota"])) {
-    
-    // Obtener valores
+  if(isset($_POST["registrarNota"])){
+
+    //Obtener valores
     $titulo = $_POST["titulo"];
     $descripcion = $_POST["descripcion"];
 
-    // Validar si esta vacio
+    //Validar si está vacío
     if (empty($titulo) || empty($descripcion)) {
-      $error = "Error, algunos campos obligatorios están vacios";
-    }else {
-      // Si entra aqui es porque se puede ingresar el nuevo registro
+      $error = "Error, algunos campos obligatorios están vacíos";      
+    }else{
+      //Si entra por aqui es porque se puede ingresar el nuevo registro
       $query = "INSERT INTO notas(titulo, descripcion, fecha, usuario_id)VALUES(:titulo, :descripcion, :fecha, :usuario_id)";
 
       $fechaActual = date('Y-m-d');
 
-      $stmt = $conexion->prepare($query);
+      $stmt = $conn->prepare($query);
 
       $stmt->bindParam(":titulo", $titulo, PDO::PARAM_STR);
       $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
       $stmt->bindParam(":fecha", $fechaActual, PDO::PARAM_STR);
-      $stmt->bindParam(":usuario_id", $idUsuario, PDO::PARAM_INT);
+      $stmt->bindParam(":usuario_id", $id_usuario, PDO::PARAM_INT);
 
-      $resultado = $stmt->execute;
+      $resultado = $stmt->execute();
 
       if ($resultado) {
-        $mensaje = "Registro de nota creado correctamente"; 
-      }else {
-        $error = "Error, no se pudo crear la nota";
+        $mensaje = "Registro de nota creado correctamente";
+      }else{
+        $error = "Error, no se pudo crear la nota";  
       }
-
     }
   }
 
@@ -39,37 +38,30 @@
 
 <div class="row">
     <div class="col-sm-12">
-
-            <?php  if(isset($mensaje)) : ?>
-      
+            <?php if(isset($mensaje)) : ?>
               <div class="alert alert-success alert-dismissible fade show" role="alert">
                   <strong><?php echo $mensaje; ?></strong> 
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
-
-            <?php endif; ?>
-      
+          <?php endif; ?>      
     </div>
 </div>
 
 <div class="row">
     <div class="col-sm-12">
-
-            <?php  if(isset($error)) : ?>
-      
+            <?php if(isset($error)) : ?>
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
                   <strong><?php echo $error; ?></strong> 
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
-
-            <?php endif; ?>
-      
+          <?php endif; ?>      
     </div>
 </div>
+
 
 
               <div class="card-header">               

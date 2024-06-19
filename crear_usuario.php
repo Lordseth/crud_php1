@@ -1,57 +1,65 @@
 <?php include "includes/header.php" ?>
-
 <?php
 
-if (isset($_POST["crearUsuario"])) {
+if(isset($_POST["crearUsuario"])){
+
+  //Obtener valores
+  $email = $_POST["email"];
+  $nombre = $_POST["nombre"];
+  $telefono = $_POST["telefono"];
+  $password = ($_POST["password"]);
+  $rol = $_POST["rol"];
+
+  //Validar si está vacío
+  if (empty($email) || empty($nombre) || empty($telefono) || empty($password)) {
+    $error = "Error, algunos campos obligatorios están vacíos";      
+  }else{
+    //Si entra por aqui es porque se puede ingresar el nuevo registro
+    $query = "INSERT INTO usuario(email, nombre, telefono, password, es_admin)VALUES(:email, :nombre, :telefono, :password, :es_admin)";
     
-  // Obtener valores
-  $titulo = $_POST["titulo"];
-  $descripcion = $_POST["descripcion"];
+    $stmt = $conn->prepare($query);
 
-  // Validar si esta vacio
-  if (empty($titulo) || empty($descripcion)) {
-    $error = "Error, algunos campos obligatorios están vacios";
-  }else {
-    // Si entra aqui es porque se puede ingresar el nuevo registro
-    $query = "INSERT INTO notas(titulo, descripcion, fecha, usuario_id)VALUES(:titulo, :descripcion, :fecha, :usuario_id)";
+    $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+    $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+    $stmt->bindParam(":telefono", $telefono, PDO::PARAM_STR);
+    $stmt->bindParam(":password", $password, PDO::PARAM_STR);
+    $stmt->bindParam(":es_admin", $rol, PDO::PARAM_INT);
 
-    $fechaActual = date('Y-m-d');
-
-    $stmt = $conexion->prepare($query);
-
-    $stmt->bindParam(":titulo", $titulo, PDO::PARAM_STR);
-    $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-    $stmt->bindParam(":fecha", $fechaActual, PDO::PARAM_STR);
-    $stmt->bindParam(":usuario_id", $idUsuario, PDO::PARAM_INT);
-
-    $resultado = $stmt->execute;
+    $resultado = $stmt->execute();
 
     if ($resultado) {
-      $mensaje = "Registro de nota creado correctamente"; 
-    }else {
-      $error = "Error, no se pudo crear la nota";
+      $mensaje = "Registro de usuario creado correctamente";
+    }else{
+      $error = "Error, no se pudo crear el usuario";  
     }
-
   }
 }
 
-
 ?>
-
 
 <div class="row">
     <div class="col-sm-12">
-     
-            <h4 class="bg-success text-white">Mensaje</h4>
-     
+            <?php if(isset($mensaje)) : ?>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong><?php echo $mensaje; ?></strong> 
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+          <?php endif; ?>      
     </div>
 </div>
 
 <div class="row">
     <div class="col-sm-12">
-       
-            <h4 class="bg-danger text-white">Error</h4>
-      
+            <?php if(isset($error)) : ?>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong><?php echo $error; ?></strong> 
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+          <?php endif; ?>      
     </div>
 </div>
 

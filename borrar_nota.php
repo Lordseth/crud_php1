@@ -1,5 +1,4 @@
 <?php include "includes/header.php" ?>
-
 <?php
   //Validar si recibimos el id, se envía por GET
   if (isset($_GET["id"])) {
@@ -8,7 +7,7 @@
 
   //Obtener los datos de la nota por su id
   $query = "SELECT * FROM notas WHERE idnota=:id";
-  $stmt = $conexion->prepare($query);
+  $stmt = $conn->prepare($query);
 
   //Debemos pasar a bindParam las variables, no podemos pasar el dato directamente
   //Llamado por referencia
@@ -17,22 +16,25 @@
 
   $nota = $stmt->fetch(PDO::FETCH_OBJ);
 
+  var_dump($nota);
+
   //Actualización de la nota
   if(isset($_POST["borrarNota"])){
 
-    //Si entra por aqui es porque se puede borrar el registro
-    $query = "DELETE notas WHERE idnota=:idnota";     
+   //Si entra por aqui es porque se puede borrar el registro
+   $query = "DELETE FROM notas WHERE idnota=:id";     
 
-    $stmt = $conn->prepare($query);     
-    $stmt->bindParam(":idnota", $idNota, PDO::PARAM_INT);
+   $stmt = $conn->prepare($query);        
+   $stmt->bindParam(":id", $idNota, PDO::PARAM_INT);
 
-    $resultado = $stmt->execute();
+   $resultado = $stmt->execute();
 
-    if ($resultado) {
-      $mensaje = "Registro de nota borrado correctamente";
-    }else{
-      $error = "Error, no se pudo editar la nota";  
-    }
+   if ($resultado) {
+     $mensaje = "Registro de nota borrado correctamente";
+   }else{
+     $error = "Error, no se pudo borrar la nota";  
+   }
+
     
   }
 
@@ -88,7 +90,7 @@
                         <label for="descripcion" class="form-label">Descripción:</label>
                         <textarea class="form-control" name="descripcion" rows="3" readonly><?php if($nota) echo $nota->descripcion; ?>
                         </textarea>
-                      </div>        
+                      </div>      
 
                             <button type="submit" name="borrarNota" class="btn btn-primary"><i class="fas fa-cog"></i> Borrar Nota</button>  
 

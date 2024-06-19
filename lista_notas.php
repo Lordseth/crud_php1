@@ -1,10 +1,10 @@
 <?php include "includes/header.php" ?>
 
-<?php
+<?php  
 
-  // Mostrar Registros
-  $query =  "SELECT FROM notas WHERE usuario_id='$idUsuario'";
-  $stmt = $conexion->query($query);
+  //Mostrar registros
+  $query = "SELECT * FROM notas WHERE usuario_id='$id_usuario'";
+  $stmt = $conn->query($query);
   $registros = $stmt->fetchAll(PDO::FETCH_OBJ);
 
   //var_dump($registros);
@@ -16,7 +16,6 @@
                 <div class="row">
                   <div class="col-md-9">
                     <h3 class="card-title">Lista de notas</h3>
-                    
                   </div>
                   <div class="col-md-3">
                     <a href="crear_nota.php" type="button" class="btn btn-primary btn-xl pull-right w-100">
@@ -38,9 +37,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                 
-                  <?php foreach($registros as $fila) : ?>
-
+                    <?php foreach($registros as $fila) : ?>
                       <tr>
                           <td><?php echo $fila->idnota; ?></td>
                           <td><?php echo $fila->titulo; ?></td>
@@ -52,9 +49,7 @@
                                 <a href="borrar_nota.php?id=<?php echo $fila->idnota; ?>" class="btn btn-danger"><i class="bi bi-pencil-fill"></i> <i class="fas fa-trash-alt"></i> Borrar</a>                                               
                             </td>                       
                       </tr>
-
-                  <?php endforeach; ?>
-                
+                    <?php endforeach; ?>
                   </tbody>                  
                 </table>
               </div>

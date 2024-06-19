@@ -1,54 +1,50 @@
 <?php include "includes/header.php" ?>
 
-<?php
+<?php  
 
-  // Mostrar Registros
-  $query =  "SELECT FROM usuario";
-  $stmt = $conexion->query($query);
+  //Mostrar registros
+  $query = "SELECT * FROM usuario";
+  $stmt = $conn->query($query);
   $usuarios = $stmt->fetchAll(PDO::FETCH_OBJ);
 
   //var_dump($registros);
 
 ?>
 
-        <div class="card-header">               
-          <div class="row">
-            <div class="col-md-9">
-              <h3 class="card-title">Lista de todos los registros usuarios</h3>
-            </div>
-            <div class="col-md-3">
-                <a href="crear_usuario.php" class="btn btn-primary btn-xl pull-right w-100"><i class="fa fa-plus"></i>  Ingresar nuevo usuario</a>                  
-            </div>
-        </div>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-          <table id="tblUsuarios" class="table table-bordered table-striped">
-            <thead>
-            <tr>
-              <th>Id</th>                  
-              <th>Email</th>
-              <th>Nombre</th>
-              <th>Teléfono</th>                   
-            </tr>
-            </thead>
-            <tbody>
-
-            <?php foreach($usuarios as $fila) : ?>
-          
-              <tr>
-                    <td><?php echo $fila->id_Usuario; ?></td>
-                    <td><?php echo $fila->email; ?></td>
-                    <td><?php echo $fila->nombre; ?></td>
-                    <td><?php echo $fila->telefono; ?></td>
-              </tr> 
-
-              <?php endforeach; ?>
-            
-            </tbody>                  
-          </table>
-        </div>
-        <!-- /.card-body -->
+              <div class="card-header">               
+                <div class="row">
+                  <div class="col-md-9">
+                    <h3 class="card-title">Lista de todos los registros usuarios</h3>
+                  </div>
+                  <div class="col-md-3">
+                      <a href="crear_usuario.php" class="btn btn-primary btn-xl pull-right w-100"><i class="fa fa-plus"></i>  Ingresar nuevo usuario</a>                  
+                 </div>
+              </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="tblUsuarios" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Id</th>                  
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>                   
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <?php foreach($usuarios as $fila) : ?>
+                   <tr>
+                          <td><?php echo $fila->id_usuario; ?></td>
+                          <td><?php echo $fila->email; ?></td>
+                          <td><?php echo $fila->nombre; ?></td>
+                          <td><?php echo $fila->telefono; ?></td>
+                    </tr> 
+                    <?php endforeach; ?>
+                  </tbody>                  
+                </table>
+              </div>
+              <!-- /.card-body -->
 
 <?php include "includes/footer.php" ?>
 
